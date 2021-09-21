@@ -1,3 +1,7 @@
+let isUpdate = false;
+let employeePayrollObj = {};
+
+
 //name validation
 window.addEventListener('DOMContentLoaded', (event) => {
     const name = document.querySelector('#name');
@@ -23,6 +27,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     salary.addEventListener('input',function(){
     output.textContent = salary.value;
     });
+
+    checkForUpdate();
 });
 
 //submit
@@ -88,9 +94,22 @@ function createAndUpdateStorage(employeePayrollData){
 //alert(localStorage.key(0));
 //clear local storage:
 //window.localStorage.clear();
+const setForm = () => {
+    setValue('#name',employeePayrollObj._name);
+    setValue('[name = profile]',employeePayrollObj._profilePic);
+    setValue('[name = gender]',employeePayrollObj._gender);
+    setValue('[name = department]',employeePayrollObj._department);
+    setValue('#salary',employeePayrollObj._salary);
+    setValue('#notes',employeePayrollObj._note);
+    let date = stringifyDate(employeePayrollObj._startDate).split(" ");
+    setValue('#day',date[0]);
+    setValue('#month',date[1]);
+    setValue('#year',date[2]);
+}
+
+
 //reset form
 const resetForm = () => {
-    debugger;
     setValue('#name','');
     unsetSelectedValues('[name = profile]');
     unsetSelectedValues('[name = gender]');
@@ -115,6 +134,15 @@ const unsetSelectedValues = (propertyValue) => {
     })
 }
 
+const checkForUpdate = () => {
+    const employeePayrollJSON = localStorage.getItem('editEmp');
+    //console.log(employeePayrollJSON);
+    isUpdate = employeePayrollJSON ? true :false;
+    //if(!isUpdate) return;
+    //console.log(isUpdate);
+    employeePayrollObj = JSON.parse(employeePayrollJSON);
+    setForm();
+}
 
+// line 82
 
-// line 78
