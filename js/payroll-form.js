@@ -96,9 +96,9 @@ function createAndUpdateStorage(employeePayrollData){
 //window.localStorage.clear();
 const setForm = () => {
     setValue('#name',employeePayrollObj._name);
-    setValue('[name = profile]',employeePayrollObj._profilePic);
-    setValue('[name = gender]',employeePayrollObj._gender);
-    setValue('[name = department]',employeePayrollObj._department);
+    setSelectedValues('[name = profile]',employeePayrollObj._profilePic);
+    setSelectedValues('[name = gender]',employeePayrollObj._gender);
+    setSelectedValues('[name = department]',employeePayrollObj._department);
     setValue('#salary',employeePayrollObj._salary);
     setValue('#notes',employeePayrollObj._note);
     let date = stringifyDate(employeePayrollObj._startDate).split(" ");
@@ -116,15 +116,30 @@ const resetForm = () => {
     unsetSelectedValues('[name = department]');
     setValue('#salary','');
     setValue('#notes','');
-    setValue('#day','1');
-    setValue('#month','January');
+    setSelectedValues('#day','1');
+    setSelectedValues('#month','January');
     setValue('#year','2021');
 }
 
 const setValue = (id,value) => {
     //alert(value)
     const element = document.querySelector(id);
-    element.setAttribute('value',value);
+    //element.setAttribute('value',value);
+    element.value = value;
+}
+
+const setSelectedValues = (propertyValue, value) => {
+    let allItems = document.querySelectorAll(propertyValue);
+    allItems.forEach(item => {
+        if(Array.isArray(value)){
+            if(value.includes(item.value)){
+                item.checked = true;
+            }
+        }
+        else if(item.value == value){
+            item.checked = true;
+        }
+    });
 }
 
 const unsetSelectedValues = (propertyValue) => {
